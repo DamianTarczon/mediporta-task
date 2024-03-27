@@ -15,7 +15,7 @@ function App() {
             element={<Home />}
           />
           <Route
-            path="/products"
+            path="/tags"
             element={<Tags />}
           />
           <Route

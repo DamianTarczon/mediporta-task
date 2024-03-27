@@ -38,7 +38,7 @@ function Header() {
             </li>
             <li>
               <NavLink
-                to="/products"
+                to="/tags"
                 className={({ isActive }) => `${isActive ? "text-blue-400" : ""} text-lg hover:text-blue-500 animation-300`}
               >
                 Tags
@@ -76,7 +76,7 @@ function Header() {
             </li>
             <li onClick={toggleDrawer(false)}>
               <NavLink
-                to="/products"
+                to="/tags"
                 className={({ isActive }) => `${isActive ? "text-blue-400" : ""} text-xl hover:text-blue-500 animation-300`}
               >
                 Tags
