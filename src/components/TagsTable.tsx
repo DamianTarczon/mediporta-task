@@ -20,6 +20,7 @@ function TagsTable({
   page,
   handleChangePage,
   isLoading,
+  isPageInRange
 }: {
   sortValue: string;
   orderValue: string;
@@ -30,6 +31,7 @@ function TagsTable({
   page: number;
   handleChangePage: (_event: React.MouseEvent<HTMLButtonElement, MouseEvent> | null, newPage: number) => void;
   isLoading: boolean;
+  isPageInRange: boolean;
 }) {
   return (
     <div className="relative">
@@ -72,14 +74,16 @@ function TagsTable({
             ))}
           </TableBody>
         </Table>
-        <TablePagination
-          component="div"
-          count={totalTags}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          rowsPerPageOptions={[]}
-        />
+        {isPageInRange && (
+          <TablePagination
+            component="div"
+            count={totalTags}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            rowsPerPageOptions={[]}
+          />
+        )}
       </TableContainer>
       {isLoading && (
         <div className="flex justify-center items-center absolute inset-0 bg-black/40">

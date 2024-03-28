@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useLocation, NavigateFunction, useNavigate } from "react-router-dom";
 import { Tag } from '../types/types.ts';
 import fetchTags from "../utils/FetchTags.tsx";
 import { SelectChangeEvent } from '@mui/material/Select';
@@ -6,51 +7,87 @@ import ErrorMessage from "../components/ErrorMessage";
 import TagsTable from "../components/TagsTable.tsx";
 import SelectInput from "../components/SelectInput.tsx";
 
+const useQuery = (): URLSearchParams => {
+  return new URLSearchParams(useLocation().search);
+}
+
 function Tags() {
+  const navigate: NavigateFunction = useNavigate();
+  const query: URLSearchParams = useQuery();
+  const location = useLocation();
   const [tags, setTags] = useState<Tag[]>([]);
-  const [page, setPage] = useState<number>(parseInt(sessionStorage.getItem('page') || '0', 10));
-  const [rowsPerPage, setRowsPerPage] = useState<number>(parseInt(sessionStorage.getItem('rowsPerPage') || '10', 10));
+  const [page, setPage] = useState<number>(0);
+  const [rowsPerPage, setRowsPerPage] = useState<number>(10);
   const [totalTags, setTotalTags] = useState<number>(0);
-  const [sortValue, setSortValue] = useState<string>(sessionStorage.getItem('sortValue') || 'popular');
-  const [orderValue, setOrderValue] = useState<string>(sessionStorage.getItem('orderValue') || 'desc');
+  const [sortValue, setSortValue] = useState<string>('popular');
+  const [orderValue, setOrderValue] = useState<string>('desc');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string | null>(null);
+  const isPageInRange: boolean = page >= 0 && page < Math.ceil(totalTags / rowsPerPage);
+
+  const getQueryParams = () => {
+    const rowsPerPageParam: string | null = query.get('pagesize');
+    const pageParam: string | null = query.get('page');
+    const sortParam: string | null = query.get('sort');
+    const orderParam: string | null = query.get('order');
+
+    const rowsPerPageQuery: number = rowsPerPageParam ? parseInt(rowsPerPageParam, 10) : rowsPerPage;
+    const pageQuery: number = pageParam ? parseInt(pageParam, 10) - 1 : page;
+    const sortQuery: string = sortParam ? sortParam : sortValue;
+    const orderQuery: string = orderParam ? orderParam : orderValue;
+
+    setPage(pageQuery);
+    setRowsPerPage(rowsPerPageQuery);
+    setSortValue(sortQuery);
+    setOrderValue(orderQuery);
+
+    return {
+      rowsPerPageQuery,
+      pageQuery,
+      sortQuery,
+      orderQuery
+    }
+  }
 
   useEffect(() => {
+    const {
+      rowsPerPageQuery,
+      pageQuery,
+      sortQuery,
+      orderQuery
+    }: {
+      rowsPerPageQuery: number;
+      pageQuery: number;
+      sortQuery: string;
+      orderQuery: string;
+    } = getQueryParams();
+
     ( async () => {
       setIsLoading(true);
       const {
         data,
         errorMessage
-      } = await fetchTags({rowsPerPage, page, sortValue, orderValue});
+      } = await fetchTags(rowsPerPageQuery, pageQuery, sortQuery, orderQuery);
       setMessage(errorMessage);
       setTags(data.items);
       setTotalTags(data.total);
       setIsLoading(false);
     })()
-  }, [page, rowsPerPage, sortValue, orderValue]);
+  }, [location.search]);
 
   const handleChangePage = (_event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
-    setPage(newPage);
-    sessionStorage.setItem('page', newPage.toString());
+    navigate(`?pagesize=${rowsPerPage}&page=${newPage + 1}&sort=${sortValue}&order=${orderValue}`);
   };
 
   const handleChangeRowsPerPage = (event: SelectChangeEvent) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    sessionStorage.setItem('rowsPerPage', event.target.value);
-    setPage(0);
-    sessionStorage.setItem('page', '0');
+    navigate(`?pagesize=${event.target.value}&page=1&sort=${sortValue}&order=${orderValue}`);
   };
 
   const handleSortChange = (value: string) => {
     if(value !== sortValue) {
-      setSortValue(value);
-      sessionStorage.setItem('sortValue', value);
-      setOrderValue('desc')
-      sessionStorage.setItem('orderValue', 'desc');
+      navigate(`?pagesize=${rowsPerPage}&page=${page + 1}&sort=${value}&order=desc`);
     } else {
-      setOrderValue(orderValue === 'desc' ? 'asc' : 'desc');
-      sessionStorage.setItem('orderValue', orderValue === 'desc' ? 'asc' : 'desc');
+      navigate(`?pagesize=${rowsPerPage}&page=${page + 1}&sort=${sortValue}&order=${orderValue === 'desc' ? 'asc' : 'desc'}`);
     }
   }
 
@@ -76,6 +113,7 @@ function Tags() {
           page={page}
           handleChangePage={handleChangePage}
           isLoading={isLoading}
+          isPageInRange={isPageInRange}
         ></TagsTable>
       </div>
     </div>
