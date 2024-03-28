@@ -1,0 +1,72 @@
+import apiUrl from "../api/apiUrl.ts";
+
+const fetchTags = async ({
+  rowsPerPage,
+  page,
+  sortValue,
+  orderValue
+} : {
+  rowsPerPage: number;
+  page: number;
+  sortValue: string;
+  orderValue: string;
+}): Promise<{
+  data: any;
+  errorMessage: string | null;
+}> => {
+  const queryString: string = `?site=stackoverflow&pagesize=${rowsPerPage}&page=${page + 1}&filter=!nNPvSNVZBz&sort=${sortValue}&order=${orderValue}`;
+  try {
+    const response = await fetch(`${apiUrl}/tags${queryString}`);
+    if (!response.ok) {
+      if (response.status === 404) {
+        return {
+          data: {
+            items: [],
+            total: 0
+          },
+          errorMessage: "Sorry, we couldn't find the tags."
+        }
+      } else if (response.status >= 500) {
+        return {
+          data: {
+            items: [],
+            total: 0
+          },
+          errorMessage: "Sorry, there's a problem with our server. Please try again later."
+        }
+      }
+      return {
+        data: {
+          items: [],
+          total: 0
+        },
+        errorMessage: null
+      };
+    }
+    const data = await response.json();
+    if(data.items || data.items.length > 0) {
+      return {
+        data,
+        errorMessage: null
+      };
+    } else {
+      return {
+        data: {
+          items: [],
+          total: 0
+        },
+        errorMessage: "No tags found."
+      };
+    }
+  } catch (error) {
+    return {
+      data: {
+        items: [],
+        total: 0
+      },
+      errorMessage: "An unexpected error occurred. Please try again."
+    };
+  }
+}
+
+export default fetchTags;

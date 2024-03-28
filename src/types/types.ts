@@ -13,5 +13,5 @@ export type Tag = {
     is_required: boolean;
     count: number;
     name: string;
-    collectives?: Collective[]; // Optional because not all tags have this
+    collectives?: Collective[];
 };
