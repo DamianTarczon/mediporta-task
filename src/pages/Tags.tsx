@@ -8,11 +8,11 @@ import SelectInput from "../components/SelectInput.tsx";
 
 function Tags() {
   const [tags, setTags] = useState<Tag[]>([]);
-  const [page, setPage] = useState<number>(0);
-  const [rowsPerPage, setRowsPerPage] = useState<number>(10);
+  const [page, setPage] = useState<number>(parseInt(sessionStorage.getItem('page') || '0', 10));
+  const [rowsPerPage, setRowsPerPage] = useState<number>(parseInt(sessionStorage.getItem('rowsPerPage') || '10', 10));
   const [totalTags, setTotalTags] = useState<number>(0);
-  const [sortValue, setSortValue] = useState<string>('popular');
-  const [orderValue, setOrderValue] = useState<string>('desc');
+  const [sortValue, setSortValue] = useState<string>(sessionStorage.getItem('sortValue') || 'popular');
+  const [orderValue, setOrderValue] = useState<string>(sessionStorage.getItem('orderValue') || 'desc');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string | null>(null);
 
@@ -32,19 +32,25 @@ function Tags() {
 
   const handleChangePage = (_event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     setPage(newPage);
+    sessionStorage.setItem('page', newPage.toString());
   };
 
   const handleChangeRowsPerPage = (event: SelectChangeEvent) => {
     setRowsPerPage(parseInt(event.target.value, 10));
+    sessionStorage.setItem('rowsPerPage', event.target.value);
     setPage(0);
+    sessionStorage.setItem('page', '0');
   };
 
   const handleSortChange = (value: string) => {
     if(value !== sortValue) {
       setSortValue(value);
+      sessionStorage.setItem('sortValue', value);
       setOrderValue('desc')
+      sessionStorage.setItem('orderValue', 'desc');
     } else {
       setOrderValue(orderValue === 'desc' ? 'asc' : 'desc');
+      sessionStorage.setItem('orderValue', orderValue === 'desc' ? 'asc' : 'desc');
     }
   }
 
