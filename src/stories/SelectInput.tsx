@@ -11,11 +11,11 @@ function SelectInput({
   handleChangeRowsPerPage: (event: SelectChangeEvent) => void;
 }) {
   return (
-    <FormControl className="max-w-48 w-full">
-      <InputLabel id="select-label">Rows per page</InputLabel>
+    <FormControl className="storybook-select-input">
+      <InputLabel id="demo-simple-select-label">Rows per page</InputLabel>
       <Select
-        labelId="select-label"
-        id="simple-select"
+        labelId="demo-simple-select-label"
+        id="demo-simple-select"
         value={rowsPerPage.toString()}
         label="Rows per page"
         onChange={handleChangeRowsPerPage}
