@@ -9,7 +9,7 @@ const fetchTags = async (
   data: any;
   errorMessage: string | null;
 }> => {
-  const queryString: string = `?site=stackoverflow&pagesize=${rowsPerPage}&page=${page + 1}&filter=!nNPvSNVZBz&sort=${sortValue}&order=${orderValue}&key=EHkhYA)xosdIqOzG9bwjsw((`;
+  const queryString: string = `?site=stackoverflow&pagesize=${rowsPerPage}&page=${page}&filter=!nNPvSNVZBz&sort=${sortValue}&order=${orderValue}&key=EHkhYA)xosdIqOzG9bwjsw((`;
   try {
     const response = await fetch(`${apiUrl}/tags${queryString}`);
     if (!response.ok) {

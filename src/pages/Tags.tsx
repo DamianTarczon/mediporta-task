@@ -1,93 +1,53 @@
 import { useEffect, useState } from "react";
-import { useLocation, NavigateFunction, useNavigate } from "react-router-dom";
 import { Tag } from '../types/types.ts';
 import fetchTags from "../utils/FetchTags.tsx";
 import { SelectChangeEvent } from '@mui/material/Select';
 import ErrorMessage from "../components/ErrorMessage";
 import TagsTable from "../components/TagsTable.tsx";
 import SelectInput from "../components/SelectInput.tsx";
-
-const useQuery = (): URLSearchParams => {
-  return new URLSearchParams(useLocation().search);
-}
+import { useQueryParams, NumberParam, StringParam, withDefault } from 'use-query-params';
 
 function Tags() {
-  const navigate: NavigateFunction = useNavigate();
-  const query: URLSearchParams = useQuery();
-  const location = useLocation();
   const [tags, setTags] = useState<Tag[]>([]);
-  const [page, setPage] = useState<number>(0);
-  const [rowsPerPage, setRowsPerPage] = useState<number>(10);
   const [totalTags, setTotalTags] = useState<number>(0);
-  const [sortValue, setSortValue] = useState<string>('popular');
-  const [orderValue, setOrderValue] = useState<string>('desc');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [message, setMessage] = useState<string | null>(null);
-  const isPageInRange: boolean = page >= 0 && page < Math.ceil(totalTags / rowsPerPage);
-
-  const getQueryParams = () => {
-    const rowsPerPageParam: string | null = query.get('pagesize');
-    const pageParam: string | null = query.get('page');
-    const sortParam: string | null = query.get('sort');
-    const orderParam: string | null = query.get('order');
-
-    const rowsPerPageQuery: number = rowsPerPageParam ? parseInt(rowsPerPageParam, 10) : rowsPerPage;
-    const pageQuery: number = pageParam ? parseInt(pageParam, 10) - 1 : page;
-    const sortQuery: string = sortParam ? sortParam : sortValue;
-    const orderQuery: string = orderParam ? orderParam : orderValue;
-
-    setPage(pageQuery);
-    setRowsPerPage(rowsPerPageQuery);
-    setSortValue(sortQuery);
-    setOrderValue(orderQuery);
-
-    return {
-      rowsPerPageQuery,
-      pageQuery,
-      sortQuery,
-      orderQuery
-    }
-  }
+  const [query, setQuery] = useQueryParams({
+    pagesize: withDefault(NumberParam, 10),
+    page: withDefault(NumberParam, 1),
+    sort: withDefault(StringParam, 'popular'),
+    order: withDefault(StringParam, 'desc'),
+  });
+  const { pagesize, page, sort, order } = query;
+  const isPageInRange: boolean = page >= 0 && page < Math.ceil(totalTags / pagesize);
 
   useEffect(() => {
-    const {
-      rowsPerPageQuery,
-      pageQuery,
-      sortQuery,
-      orderQuery
-    }: {
-      rowsPerPageQuery: number;
-      pageQuery: number;
-      sortQuery: string;
-      orderQuery: string;
-    } = getQueryParams();
-
     ( async () => {
       setIsLoading(true);
       const {
         data,
         errorMessage
-      } = await fetchTags(rowsPerPageQuery, pageQuery, sortQuery, orderQuery);
+      } = await fetchTags(pagesize, page, sort, order);
       setMessage(errorMessage);
       setTags(data.items);
       setTotalTags(data.total);
       setIsLoading(false);
     })()
-  }, [location.search]);
+  }, [pagesize, page, sort, order]);
 
   const handlePageChange = (_event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
-    navigate(`?pagesize=${rowsPerPage}&page=${newPage + 1}&sort=${sortValue}&order=${orderValue}`);
+    setQuery({ ...query, page: newPage + 1 });
   };
 
   const handleChangeRowsPerPage = (event: SelectChangeEvent) => {
-    navigate(`?pagesize=${event.target.value}&page=1&sort=${sortValue}&order=${orderValue}`);
+    setQuery({ ...query, pagesize: parseInt(event.target.value, 10), page: 1 });
   };
 
   const handleSortChange = (value: string) => {
-    if(value !== sortValue) {
-      navigate(`?pagesize=${rowsPerPage}&page=${page + 1}&sort=${value}&order=desc`);
+    if(value !== sort!) {
+      setQuery({...query, sort: value, order: 'desc', page: 1});
     } else {
-      navigate(`?pagesize=${rowsPerPage}&page=${page + 1}&sort=${sortValue}&order=${orderValue === 'desc' ? 'asc' : 'desc'}`);
+      setQuery({...query, order: order === 'desc' ? 'asc' : 'desc', page: 1});
     }
   }
 
@@ -99,17 +59,17 @@ function Tags() {
       </div>
       <div className="space-y-2.5">
         <SelectInput
-          rowsPerPage={rowsPerPage}
+          rowsPerPage={pagesize}
           handleChangeRowsPerPage={handleChangeRowsPerPage}
         ></SelectInput>
         { message && <ErrorMessage message={message} /> }
         <TagsTable
-          sortValue={sortValue}
-          orderValue={orderValue}
+          sortValue={sort}
+          orderValue={order}
           handleSortChange={handleSortChange}
           tags={tags}
           totalTags={totalTags}
-          rowsPerPage={rowsPerPage}
+          rowsPerPage={pagesize}
           page={page}
           handlePageChange={handlePageChange}
           isLoading={isLoading}

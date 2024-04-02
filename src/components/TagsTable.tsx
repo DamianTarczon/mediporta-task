@@ -9,6 +9,7 @@ import TablePagination from "@mui/material/TablePagination";
 import CircularProgress from "@mui/material/CircularProgress";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import { Tag } from "../types/types.ts";
+import React from "react";
 
 function TagsTable({
   sortValue,
@@ -79,7 +80,7 @@ function TagsTable({
             component="div"
             count={totalTags}
             rowsPerPage={rowsPerPage}
-            page={page}
+            page={page - 1}
             onPageChange={handlePageChange}
             rowsPerPageOptions={[]}
           />
