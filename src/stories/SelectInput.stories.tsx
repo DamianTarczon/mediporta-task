@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { useArgs } from '@storybook/preview-api';
 import SelectInput from "./SelectInput.tsx";
-import './selectInput.css';
 import { SelectChangeEvent } from '@mui/material/Select';
 
 const meta: Meta<typeof SelectInput> = {
@@ -29,7 +28,6 @@ export const InUse: Story = {
   render: function Render(args) {
     const [_, updateArgs] = useArgs();
 
-    // Explicitly type the event parameter
     const handleChangeRowsPerPage = (event: SelectChangeEvent<string>) => {
       updateArgs({ rowsPerPage: event.target.value });
     };

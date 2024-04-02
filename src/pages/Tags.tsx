@@ -75,7 +75,7 @@ function Tags() {
     })()
   }, [location.search]);
 
-  const handleChangePage = (_event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
+  const handlePageChange = (_event: React.MouseEvent<HTMLButtonElement> | null, newPage: number) => {
     navigate(`?pagesize=${rowsPerPage}&page=${newPage + 1}&sort=${sortValue}&order=${orderValue}`);
   };
 
@@ -111,7 +111,7 @@ function Tags() {
           totalTags={totalTags}
           rowsPerPage={rowsPerPage}
           page={page}
-          handleChangePage={handleChangePage}
+          handlePageChange={handlePageChange}
           isLoading={isLoading}
           isPageInRange={isPageInRange}
         ></TagsTable>

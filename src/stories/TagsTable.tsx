@@ -9,6 +9,7 @@ import TablePagination from "@mui/material/TablePagination";
 import CircularProgress from "@mui/material/CircularProgress";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import { Tag } from "../types/types.ts";
+import './tagsTable.css';
 
 function TagsTable({
   sortValue,
@@ -34,7 +35,7 @@ function TagsTable({
   isPageInRange: boolean;
 }) {
   return (
-    <div className="relative">
+    <div className="storybook-tags-table-container">
       <TableContainer component={Paper}>
         <Table>
           <TableHead>
@@ -86,7 +87,7 @@ function TagsTable({
         )}
       </TableContainer>
       {isLoading && (
-        <div className="flex justify-center items-center absolute inset-0 bg-black/40">
+        <div className="storybook-loading">
           <CircularProgress />
         </div>
       )}
