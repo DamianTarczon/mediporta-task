@@ -1,4 +1,5 @@
 import apiUrl from "../api/apiUrl.ts";
+import {FetchApiData} from "../types/types.ts";
 
 const fetchTags = async (
   rowsPerPage: number,
@@ -6,10 +7,11 @@ const fetchTags = async (
   sortValue: string,
   orderValue: string
 ): Promise<{
-  data: any;
+  data: FetchApiData;
   errorMessage: string | null;
 }> => {
-  const queryString: string = `?site=stackoverflow&pagesize=${rowsPerPage}&page=${page}&filter=!nNPvSNVZBz&sort=${sortValue}&order=${orderValue}&key=EHkhYA)xosdIqOzG9bwjsw((`;
+  const apiKey = import.meta.env.VITE_API_KEY;
+  const queryString: string = `?site=stackoverflow&pagesize=${rowsPerPage}&page=${page}&filter=!nNPvSNVZBz&sort=${sortValue}&order=${orderValue}&key=${apiKey}`;
   try {
     const response = await fetch(`${apiUrl}/tags${queryString}`);
     if (!response.ok) {

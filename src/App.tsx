@@ -1,6 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import Home from "./pages/Home";
-import Tags from "./pages/Tags.tsx";
+import Home from "./pages/Home.tsx";
 import NotFound from "./pages/NotFound";
 import Header from "./components/navigations/Header";
 import Footer from "./components/navigations/Footer";
@@ -13,10 +12,6 @@ function App() {
           <Route
             path="/"
             element={<Home />}
-          />
-          <Route
-            path="/tags"
-            element={<Tags />}
           />
           <Route
             path="*"

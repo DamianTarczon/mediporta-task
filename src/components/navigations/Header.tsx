@@ -36,14 +36,6 @@ function Header() {
                 Homepage
               </NavLink>
             </li>
-            <li>
-              <NavLink
-                to="/tags"
-                className={({ isActive }) => `${isActive ? "text-blue-400" : ""} text-lg hover:text-blue-500 animation-300`}
-              >
-                Tags
-              </NavLink>
-            </li>
           </ul>
           <div className="w-fit sm:hidden">
             <IconButton onClick={toggleDrawer(true)}>
@@ -72,14 +64,6 @@ function Header() {
                 className={({ isActive }) => `${isActive ? "text-blue-400" : ""} text-xl hover:text-blue-500 animation-300`}
               >
                 Homepage
-              </NavLink>
-            </li>
-            <li onClick={toggleDrawer(false)}>
-              <NavLink
-                to="/tags"
-                className={({ isActive }) => `${isActive ? "text-blue-400" : ""} text-xl hover:text-blue-500 animation-300`}
-              >
-                Tags
               </NavLink>
             </li>
           </ul>

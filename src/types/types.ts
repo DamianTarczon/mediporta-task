@@ -15,3 +15,13 @@ export type Tag = {
     name: string;
     collectives?: Collective[];
 };
+
+export type FetchApiData = {
+    has_more?: boolean;
+    items: Tag[];
+    page?: number;
+    page_size?: number;
+    quota_max?: number;
+    quote_remaining?: number;
+    total: number;
+}
