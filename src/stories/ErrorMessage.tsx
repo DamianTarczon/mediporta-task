@@ -1,4 +1,4 @@
-import './ErrorMessage.css';
+import './ErrorMessage.scss';
 function ErrorMessage({message}: {message: string}) {
     return (
         <div className="storybook-error-message">

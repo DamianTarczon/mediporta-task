@@ -2,7 +2,7 @@ import InputLabel from "@mui/material/InputLabel";
 import Select, {SelectChangeEvent} from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
-import './SelectInput.css';
+import './SelectInput.scss';
 
 function SelectInput({
   rowsPerPage,

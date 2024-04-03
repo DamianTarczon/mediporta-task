@@ -9,7 +9,7 @@ import TablePagination from "@mui/material/TablePagination";
 import CircularProgress from "@mui/material/CircularProgress";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import { Tag } from "../types/types.ts";
-import './TagsTable.css';
+import './TagsTable.scss';
 
 function TagsTable({
   sortValue,
