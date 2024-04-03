@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 import { Tag } from '../types/types.ts';
 import fetchTags from "../utils/FetchTags.tsx";
 import { SelectChangeEvent } from '@mui/material/Select';
-import ErrorMessage from "../components/ErrorMessage";
-import TagsTable from "../components/TagsTable.tsx";
-import SelectInput from "../components/SelectInput.tsx";
+import ErrorMessage from "../components/errorMessage/ErrorMessage.tsx";
+import TagsTable from "../components/tagsTable/TagsTable.tsx";
+import SelectInput from "../components/selectInput/SelectInput.tsx";
 import { useQueryParams, NumberParam, StringParam, withDefault } from 'use-query-params';
 
 function Home() {

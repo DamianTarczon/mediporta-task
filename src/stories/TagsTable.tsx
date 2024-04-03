@@ -9,7 +9,7 @@ import TablePagination from "@mui/material/TablePagination";
 import CircularProgress from "@mui/material/CircularProgress";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import { Tag } from "../types/types.ts";
-import './tagsTable.css';
+import './TagsTable.css';
 
 function TagsTable({
   sortValue,
@@ -42,7 +42,7 @@ function TagsTable({
             <TableRow>
               <TableCell
                 align="center"
-                className="!font-bold w-1/2"
+                className="storybook-table-cell"
               >
                 <TableSortLabel
                   active={sortValue === "name"}
@@ -54,7 +54,7 @@ function TagsTable({
               </TableCell>
               <TableCell
                 align="center"
-                className="!font-bold w-1/2"
+                className="storybook-table-cell"
               >
                 <TableSortLabel
                   active={sortValue === "popular"}

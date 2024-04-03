@@ -8,7 +8,7 @@ import Paper from "@mui/material/Paper";
 import TablePagination from "@mui/material/TablePagination";
 import CircularProgress from "@mui/material/CircularProgress";
 import TableSortLabel from "@mui/material/TableSortLabel";
-import { Tag } from "../types/types.ts";
+import { Tag } from "../../types/types.ts";
 import React from "react";
 
 function TagsTable({
