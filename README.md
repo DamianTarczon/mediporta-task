@@ -6,3 +6,5 @@ To start project run in terminal:
 
 To start storybook run:
 1. npm run storybook
+
+I know that .env with api key should be included in .gitignore, but for the purpose of the task I am not doing that.
