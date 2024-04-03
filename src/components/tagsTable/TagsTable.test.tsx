@@ -3,8 +3,8 @@ import TagsTable from "./TagsTable.tsx";
 describe('TagsTable component', () => {
   it('renders tags correctly', () => {
     const mockTags = [
-      { name: 'JavaScript', count: 100, has_synonyms: false, is_moderator_only: false, is_required: false },
-      { name: 'React', count: 200, has_synonyms: false, is_moderator_only: false, is_required: false },
+      { name: 'JavaScript', count: 100, hasSynonyms: false, isModeratorOnly: false, isRequired: false },
+      { name: 'React', count: 200, hasSynonyms: false, isModeratorOnly: false, isRequired: false },
     ];
     const rowsPerPage = 10;
     const firstPage = 1;
@@ -59,7 +59,7 @@ describe('TagsTable component', () => {
     const rowsPerPage = 10;
     const firstPage = 1;
     const mockTags = [...Array(rowsPerPage).keys()].map(i => (
-      { name: `Tag ${i + 1}`, count: i * 10, has_synonyms: false, is_moderator_only: false, is_required: false }
+      { name: `Tag ${i + 1}`, count: i * 10, hasSynonyms: false, isModeratorOnly: false, isRequired: false }
     ));
 
     render(

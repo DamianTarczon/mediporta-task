@@ -1,6 +1,6 @@
 export type Collective = {
     tags: string[];
-    external_links: { type: string; link: string }[];
+    externalLinks: { type: string; link: string }[];
     description: string;
     link: string;
     name: string;
@@ -8,20 +8,20 @@ export type Collective = {
 };
 
 export type Tag = {
-    has_synonyms: boolean;
-    is_moderator_only: boolean;
-    is_required: boolean;
+    hasSynonyms: boolean;
+    isModeratorOnly: boolean;
+    isRequired: boolean;
     count: number;
     name: string;
     collectives?: Collective[];
 };
 
 export type FetchApiData = {
-    has_more?: boolean;
+    hasMore?: boolean;
     items: Tag[];
     page?: number;
-    page_size?: number;
-    quota_max?: number;
-    quote_remaining?: number;
+    pageSize?: number;
+    quotaMax?: number;
+    quoteRemaining?: number;
     total: number;
 }
