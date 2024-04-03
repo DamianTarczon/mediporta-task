@@ -12,7 +12,6 @@ const mockTags: Tag[] = Array.from({ length: 10 }, (_, index) => ({
   is_required: false,
 }));
 
-// const sortedMockTags = [...mockTags].sort((a, b) => b.count - a.count);
 function generateMockTags(rowsPerPage: number, page: number, sort: string, order: string){
   const sortedMockTags = mockTags.sort((a, b) => {
     let compareValue = 0;
