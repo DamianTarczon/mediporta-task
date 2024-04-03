@@ -7,9 +7,9 @@ import React, { useMemo } from 'react';
 const mockTags: Tag[] = Array.from({ length: 10 }, (_, index) => ({
   name: `Tag ${index + 1}`,
   count: Math.floor(Math.random() * 100),
-  has_synonyms: false,
-  is_moderator_only: true,
-  is_required: false,
+  hasSynonyms: false,
+  isModeratorOnly: true,
+  isRequired: false,
 }));
 
 function generateMockTags(rowsPerPage: number, page: number, sort: string, order: string){
@@ -84,7 +84,7 @@ export const Default: Story = {
     isPageInRange: true,
   },
   render: function Render(args) {
-    const [_, updateArgs] = useArgs();
+    const [_, updateArgs] = useArgs(); // eslint-disable-line @typescript-eslint/no-unused-vars
     const tags = useMemo(() => {
       return generateMockTags(args.rowsPerPage, args.page, args.sortValue, args.orderValue)
     }, [args.rowsPerPage, args.page, args.sortValue, args.orderValue])

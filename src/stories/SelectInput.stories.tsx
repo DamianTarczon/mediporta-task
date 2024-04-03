@@ -26,7 +26,7 @@ export const InUse: Story = {
     rowsPerPage: 10,
   },
   render: function Render(args) {
-    const [_, updateArgs] = useArgs();
+    const [_, updateArgs] = useArgs(); // eslint-disable-line @typescript-eslint/no-unused-vars
 
     const handleChangeRowsPerPage = (event: SelectChangeEvent<string>) => {
       updateArgs({ rowsPerPage: event.target.value.toString() });
