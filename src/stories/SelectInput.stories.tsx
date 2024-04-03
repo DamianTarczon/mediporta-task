@@ -29,7 +29,7 @@ export const InUse: Story = {
     const [_, updateArgs] = useArgs();
 
     const handleChangeRowsPerPage = (event: SelectChangeEvent<string>) => {
-      updateArgs({ rowsPerPage: event.target.value });
+      updateArgs({ rowsPerPage: event.target.value.toString() });
     };
 
     return <SelectInput {...args} handleChangeRowsPerPage={handleChangeRowsPerPage} />;
